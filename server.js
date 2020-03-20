@@ -14,9 +14,12 @@ app.get("/", (req, res) => {
 const person_route = require("./routes/person");
 app.use("/person", person_route);
 
-const ticket_route = require("./routes/ticket");
-app.use("/ticket", ticket_route);
+// const ticket_route = require("./routes/ticket");
+// app.use("/ticket", ticket_route);
 
+app.get("/ticket", (req, res) => {
+  res.send("ticket route");
+});
 app.listen(process.env.PORT, () => {
   console.log("Listening on port 3000");
 });
