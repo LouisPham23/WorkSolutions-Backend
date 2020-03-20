@@ -1,0 +1,30 @@
+CREATE TABLE TICKET(
+  Ticket_number INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  Ticket_type VARCHAR(50),
+  Priority INT,
+  Status VARCHAR(50),
+  Description TEXT
+);
+
+CREATE TABLE DEPARTMENT(
+  Department_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  Name VARCHAR(50),
+  Location VARCHAR(255),
+  Acronym VARCHAR(50)
+);
+
+CREATE TABLE TEAM(
+  Group_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  Name VARCHAR(100)
+);
+
+CREATE TABLE EMPLOYEE(
+  Employee_id VARCHAR(10) PRIMARY KEY NOT NULL,
+  First_name VARCHAR(100),
+  Last_name VARCHAR(100),
+  Group_id INT,
+  Department_id INT,
+  Classification VARCHAR(100),
+  FOREIGN KEY (Group_id) REFERENCES TEAM(Group_id),
+  FOREIGN KEY (Department_id) REFERENCES DEPARTMENT(Department_id)
+);
