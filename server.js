@@ -24,6 +24,9 @@ app.use("/person", person_route);
 const ticket_route = require("./routes/ticket");
 app.use("/ticket", ticket_route);
 
+const department_route = require("./routes/department");
+app.use("/department", department_route);
+
 app.listen(process.env.PORT, () => {
   console.log("Listening on port 3000");
 });
