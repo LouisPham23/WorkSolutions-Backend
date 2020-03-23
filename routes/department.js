@@ -32,4 +32,15 @@ router.post("/", (req, res) => {
   });
 });
 
+router.patch("/", async (req, res) => {
+  con.query(
+    "UPDATE deparment set Name = ?, Location = ?, Acronym = ?",
+    req.body,
+    (err, result) => {
+      if (err) throw err;
+      res.send(result).status(200);
+    }
+  );
+});
+
 module.exports = router;
