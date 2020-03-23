@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   con.query(
-    "SELECT * FROM heroku_4626acc8b075c22.persons where id = ?",
+    "SELECT * FROM heroku_4626acc8b075c22.persons where PersonID = ?",
     [req.params.id],
     (err, rows, results) => {
       if (err) throw err;
