@@ -21,4 +21,15 @@ router.get("/:id", (req, res) => {
   );
 });
 
+router.post("/", (req, res) => {
+  const department = req.body;
+  con.query("INSERT INTO department VALUES", department, (err, result) => {
+    if (err) {
+      res.send(err).status(400);
+    } else {
+      res.send(result).status(200);
+    }
+  });
+});
+
 module.exports = router;
