@@ -41,19 +41,15 @@ router.patch("/", async (req, res) => {
     Department_id: 2,
     Location: "Vacaville"
   };
-  try {
-    let statement = con.query(
-      `UPDATE deparment SET Location = ? where Department_id = ${dep_id}`,
-      updated_dep,
-      (err, result) => {
-        if (err) throw err;
-        res.send(result).status(200);
-      }
-    );
-  } catch {
-    res.send({ err });
-    console.log(statement.sql);
-  }
+  let statement = con.query(
+    `UPDATE deparment SET Location = ? where Department_id = ${dep_id}`,
+    updated_dep,
+    (err, result) => {
+      if (err) throw err;
+      res.send(result).status(200);
+    }
+  );
+  console.log(statement.sql);
 });
 
 module.exports = router;
