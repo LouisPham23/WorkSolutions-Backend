@@ -23,7 +23,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const department = req.body;
-  con.query("INSERT INTO department VALUES ? ", department, (err, result) => {
+  con.query("INSERT INTO department VALUES (?) ", department, (err, result) => {
     if (err) {
       res.send(err).status(400);
     } else {
