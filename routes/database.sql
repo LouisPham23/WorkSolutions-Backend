@@ -3,6 +3,7 @@ CREATE TABLE TICKET(
   Ticket_type VARCHAR(50),
   Priority INT,
   Status VARCHAR(50),
+  Title VARCHAR(255),
   Description TEXT
 );
 

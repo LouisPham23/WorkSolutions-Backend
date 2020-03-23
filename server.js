@@ -28,5 +28,5 @@ const department_route = require("./routes/department");
 app.use("/department", department_route);
 
 app.listen(process.env.PORT, () => {
-  console.log("Listening on port 3000");
+  console.log(`Listening on port: ${process.env.PORT}`);
 });
