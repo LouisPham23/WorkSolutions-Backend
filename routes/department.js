@@ -37,6 +37,7 @@ router.post("/", (req, res) => {
 router.patch("/", async (req, res) => {
   const dep_id = req.body.Department_id;
   const updated_dep = req.body;
+  console.log(updated_dep);
   con.query(
     `UPDATE deparment set Name = ?, Location = ?, Acronym = ? where Department_id = ${dep_id}`,
     updated_dep,
