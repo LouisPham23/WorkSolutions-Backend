@@ -35,12 +35,12 @@ router.post("/", (req, res) => {
 //Put: you need to send in all of the information for that row, where Patch: need to send the updated information only
 
 router.patch("/", async (req, res) => {
-  // const dep_id = req.body.Department_id;
-  // const updated_dep = req.body;
-  const updated_dep = {
-    Department_id: 2,
-    Location: "Vacaville"
-  };
+  const dep_id = req.body.Department_id;
+  const updated_dep = req.body;
+  // const updated_dep = {
+  //   Department_id: 2,
+  //   Location: "Vacaville"
+  // };
   let statement = con.query(
     `UPDATE deparment SET Location = ? where Department_id = ${dep_id}`,
     updated_dep,
