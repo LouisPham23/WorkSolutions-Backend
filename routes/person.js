@@ -10,6 +10,17 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  con.query(
+    "SELECT * FROM heroku_4626acc8b075c22.persons where id = ?",
+    [req.params.id],
+    (err, rows) => {
+      if (err) throw err;
+      res.send(rows);
+    }
+  );
+});
+
 router.post("/", (req, res) => {
   const { id, first, last, address, city } = req.body;
 
