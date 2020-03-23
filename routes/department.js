@@ -33,8 +33,10 @@ router.post("/", (req, res) => {
 });
 
 router.patch("/", async (req, res) => {
+  const dep_id = req.body.Department_id;
+
   con.query(
-    "UPDATE deparment set Name = ?, Location = ?, Acronym = ? where Department_id = ?",
+    `UPDATE deparment set Name = ?, Location = ?, Acronym = ? where Department_id = ${dep_id}`,
     req.body,
     (err, result) => {
       if (err) throw err;
