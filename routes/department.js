@@ -34,7 +34,7 @@ router.post("/", (req, res) => {
 
 //Put: you need to send in all of the information for that row, where Patch: need to send the updated information only
 
-router.patch("/", async (req, res) => {
+router.put("/", async (req, res) => {
   const dep_id = req.body.Department_id;
   const updated_dep = req.body;
   console.log(updated_dep);
