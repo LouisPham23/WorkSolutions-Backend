@@ -42,11 +42,11 @@ router.patch("/", async (req, res) => {
     `UPDATE deparment SET Location = ? where Department_id = ${dep_id}`,
     updated_dep,
     (err, result) => {
-      console.log(statement.sql);
       if (err) throw err;
       res.send(result).status(200);
     }
   );
+  console.log(statement.sql);
 });
 
 module.exports = router;
