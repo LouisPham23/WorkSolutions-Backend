@@ -43,7 +43,6 @@ router.put("/", (req, res) => {
     (err, result) => {
       if (err) throw err;
       res.send(result);
-      res.end();
     }
   );
 });
