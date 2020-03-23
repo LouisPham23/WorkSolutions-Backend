@@ -38,10 +38,11 @@ router.patch("/", async (req, res) => {
   const dep_id = req.body.Department_id;
   const updated_dep = req.body;
   console.log(updated_dep);
-  con.query(
+  let statement = con.query(
     `UPDATE deparment SET Location = ? where Department_id = ${dep_id}`,
     updated_dep,
     (err, result) => {
+      console.log(statement.sql);
       if (err) throw err;
       res.send(result).status(200);
     }
