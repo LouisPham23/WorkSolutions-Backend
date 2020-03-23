@@ -14,9 +14,10 @@ router.get("/:id", (req, res) => {
   con.query(
     "SELECT * FROM heroku_4626acc8b075c22.persons where id = ?",
     [req.params.id],
-    (err, rows) => {
+    (err, rows, results) => {
       if (err) throw err;
       res.send(rows);
+      console.log(results);
     }
   );
 });
