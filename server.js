@@ -25,6 +25,9 @@ app.use("/ticket", ticket_route);
 const department_route = require("./routes/department");
 app.use("/department", department_route);
 
+const team_route = require("./routes/team");
+app.use("/team", team_route);
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port: ${process.env.PORT}`);
 });

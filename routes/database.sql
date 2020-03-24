@@ -29,3 +29,12 @@ CREATE TABLE EMPLOYEE(
   FOREIGN KEY (Group_id) REFERENCES TEAM(Group_id),
   FOREIGN KEY (Department_id) REFERENCES DEPARTMENT(Department_id)
 );
+
+DELIMITER // 
+CREATE PROCEDURE GetTeamsAndMembers()
+BEGIN
+    SELECT *
+    FROM 
+	    TEAM T JOIN EMPLOYEE E ON E.Group_id = T.Group_id;
+END //
+DELIMITER ;
