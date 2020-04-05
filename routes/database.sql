@@ -4,7 +4,12 @@ CREATE TABLE TICKET(
   Priority INT,
   Status VARCHAR(50),
   Title VARCHAR(255),
-  Description TEXT
+  Created_By INT NOT NULL,
+  Assigned_To INT,
+  Assigned_Date DATE,
+  Deadline_Date DATE,
+  Description TEXT,
+  FOREIGN KEY (Created_By) REFERENCES EMPLOYEE(Employee_id) ON DELETE CASCADE
 );
 
 CREATE TABLE DEPARTMENT(
@@ -15,8 +20,11 @@ CREATE TABLE DEPARTMENT(
 );
 
 CREATE TABLE TEAM(
-  Group_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  Name VARCHAR(100)
+  Team_id INT NOT NULL AUTO_INCREMENT,
+  Department_id INT NOT NULL,
+  Name VARCHAR(100),
+  CONSTRAINT PRIMARY KEY TEAM(Team_id, Department_id),
+  FOREIGN KEY (Department_id) REFERENCES DEPARTMENT(Department_id)
 );
 
 CREATE TABLE EMPLOYEE(
@@ -26,6 +34,23 @@ CREATE TABLE EMPLOYEE(
   Group_id INT,
   Department_id INT,
   Classification VARCHAR(100),
-  FOREIGN KEY (Group_id) REFERENCES TEAM(Group_id),
+  FOREIGN KEY (Group_id) REFERENCES TEAM(Team_id),
   FOREIGN KEY (Department_id) REFERENCES DEPARTMENT(Department_id)
 );
+
+
+CREATE TABLE STATUS (
+    Status_ID int,
+    Status_name VARCHAR(15)
+);
+
+
+/* trigger for insert
+//Delimiter
+Create Trigger
+
+
+
+
+DELIMITER //
+
