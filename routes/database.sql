@@ -38,6 +38,7 @@ CREATE TABLE EMPLOYEE(
   FOREIGN KEY (Department_id) REFERENCES DEPARTMENT(Department_id)
 );
 
+<<<<<<< HEAD
 
 CREATE TABLE STATUS (
     Status_ID int,
@@ -54,3 +55,13 @@ Create Trigger
 
 DELIMITER //
 
+=======
+DELIMITER // 
+CREATE PROCEDURE GetTeamsAndMembers()
+BEGIN
+    SELECT *
+    FROM 
+	    TEAM T JOIN EMPLOYEE E ON E.Group_id = T.Group_id;
+END //
+DELIMITER ;
+>>>>>>> 263853e3d5106351efd5bfc7306b608237e9685f
