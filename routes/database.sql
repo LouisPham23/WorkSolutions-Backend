@@ -49,11 +49,32 @@ CREATE TABLE TICKET(
       FOREIGN KEY (Status_Id) REFERENCES STATUS(Status_Id)
 );
 
-/* trigger for insert
-//Delimiter
+/* Create a view that sums all tickets grouped by status: LP
+
+CREATE VIEW(
+
+);
+
+trigger for insert and update EMPLOYEE TYPE: LP
+
+Delimiter //
 Create Trigger
 
+//
 
+trigger for EMPLOYEES support level, materialized view: Dat
+
+Delimiter //
+Create Trigger
+
+//
+
+trigger for employees and teams they are apart of, materialized view for web developer, IT, etc: Jared
+
+Delimeter //
+Create Trigger
+
+//
 
 
 DELIMITER //
