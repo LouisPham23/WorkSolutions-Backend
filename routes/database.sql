@@ -1,19 +1,3 @@
-CREATE TABLE TICKET(
-  Ticket_number INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  Ticket_type VARCHAR(50),
-  Priority INT,
-  Status_Id VARCHAR(50),
-  Title VARCHAR(255),
-  Created_By INT NOT NULL,
-  Assigned_To INT,
-  Assigned_Date DATE,
-  Deadline_Date DATE,
-  Description TEXT,
-  FOREIGN KEY (Created_By)    REFERENCES EMPLOYEE(Employee_Id),
-    FOREIGN KEY (Assigned_To) REFERENCES EMPLOYEE(Employee_Id),
-      FOREIGN KEY (Status_Id) REFERENCES STATUS(Status_Id)
-);
-
 CREATE TABLE DEPARTMENT(
   Department_Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   Name VARCHAR(50),
@@ -38,15 +22,31 @@ CREATE TABLE EMPLOYEE(
 );
 
 CREATE TABLE STATUS (
-    Status_Id int,
+    Status_Id INT PRIMARY KEY NOT NULL,
     Status_name VARCHAR(15)
 );
 
 CREATE TABLE TEAM_EMPLOYEE(
   Team_Id INT NOT NULL,
-  Employee_Id INT NOT NULL,
+  Employee_Id VARCHAR(10) NOT NULL,
   FOREIGN KEY (Team_Id) REFERENCES TEAM(Team_Id),
   FOREIGN KEY (Employee_Id) REFERENCES EMPLOYEE(Employee_Id)
+);
+
+CREATE TABLE TICKET(
+  Ticket_number INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  Ticket_type VARCHAR(50),
+  Priority INT,
+  Status_Id INT,
+  Title VARCHAR(255),
+  Created_By VARCHAR(10) NOT NULL,
+  Assigned_To VARCHAR(10),
+  Assigned_Date DATE,
+  Deadline_Date DATE,
+  Description TEXT,
+  FOREIGN KEY (Created_By)    REFERENCES EMPLOYEE(Employee_Id),
+    FOREIGN KEY (Assigned_To) REFERENCES EMPLOYEE(Employee_Id),
+      FOREIGN KEY (Status_Id) REFERENCES STATUS(Status_Id)
 );
 
 /* trigger for insert
