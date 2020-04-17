@@ -5,10 +5,34 @@ CREATE TABLE DEPARTMENT(
   Acronym VARCHAR(50)
 );
 
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Agency of Mainframe Computer Development", "76 Beechwood Dr.
+New Haven, CT 06511", "AMCD");
+
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Agency of On-Line Mainframe Backup and Connectivity","506 Sleepy Hollow Ave.Jamaica Plain, MA 02130", "OMBC");
+
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Branch of Programming Control and Connectivity","257 W. Mechanic Dr.
+Rocky Mount, NC 27804", "BPCC");
+
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Programming Installation Committee","618 St Louis Street
+Tualatin, OR 97062", "OMBC");
+
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Multimedia Development Division","653 Church St.
+Mountain View, CA 94043", "MDD");
+
+INSERT INTO DEPARTMENT (Name, Location, Acronym) VALUES("Department of Database Troubleshooting and Internet Connectivity","694 Paris Hill St.
+Saint Johns, FL 32259", "DDTIC");
+
 CREATE TABLE TEAM(
   Team_Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   Team_name VARCHAR(100)
 );
+
+INSERT INTO TEAM (Team_name) VALUES("Web Automation");
+INSERT INTO TEAM (Team_name) VALUES("Database Administration");
+INSERT INTO TEAM (Team_name) VALUES("UI/UX Design");
+INSERT INTO TEAM (Team_name) VALUES("Network Operation Control");
+INSERT INTO TEAM (Team_name) VALUES("Network Security");
+INSERT INTO TEAM (Team_name) VALUES("Research Operation");
 
 CREATE TABLE EMPLOYEE(
   Employee_Id VARCHAR(10) PRIMARY KEY NOT NULL,
@@ -25,6 +49,10 @@ CREATE TABLE STATUS (
     Status_Id INT PRIMARY KEY NOT NULL,
     Status_name VARCHAR(15)
 );
+
+INSERT INTO STATUS VALUES(1, "Work In Progress");
+INSERT INTO STATUS VALUES(2, "Open");
+INSERT INTO STATUS VALUES(3, "Closed");
 
 CREATE TABLE TEAM_EMPLOYEE(
   Team_Id INT NOT NULL,
@@ -57,10 +85,27 @@ CREATE VIEW(
 
 trigger for insert and update EMPLOYEE TYPE: LP
 
-Delimiter //
-Create Trigger
-
-//
+DELIMITER //
+CREATE TRIGGER EMPLOYEE_TYPE_DISJOINT 
+	BEFORE INSERT ON EMPLOYEE
+    FOR EACH ROW 
+    BEGIN
+		IF 
+			NEW.Type = 'DEVELOPER' THEN
+			IF NEW.Level is not null THEN
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Disjoint Enforced';
+			END IF;
+		ELSE IF
+			NEW.Type = 'SUPPORT' THEN
+			IF NEW.Specialty is not null THEN
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Disjoint Enforced';
+			END IF;
+        END IF;
+        END IF;
+	END //;
+DELIMITER ;
 
 trigger for EMPLOYEES support level, materialized view: Dat
 

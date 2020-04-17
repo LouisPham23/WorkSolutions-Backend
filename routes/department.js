@@ -4,7 +4,7 @@ const router = express.Router();
 const con = require("../connection");
 
 router.get("/", (req, res) => {
-  con.query("SELECT * FROM department", (err, rows) => {
+  con.query("SELECT * FROM DEPARTMENT", (err, rows) => {
     if (err) throw err;
     res.send(rows);
   });
@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   con.query(
-    "SELECT * FROM department where Department_id = ?",
+    "SELECT * FROM DEPARTMENT where DEPARTMENT_id = ?",
     [req.params.id],
     (err, row, fields, result) => {
       if (err) throw err;
@@ -22,8 +22,8 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const department = req.body;
-  con.query("INSERT INTO department SET ? ", department, (err, result) => {
+  const DEPARTMENT = req.body;
+  con.query("INSERT INTO DEPARTMENT SET ? ", DEPARTMENT, (err, result) => {
     if (err) {
       res.send(err).status(400);
     } else {
@@ -36,9 +36,9 @@ router.post("/", (req, res) => {
 
 router.put("/", (req, res) => {
   const updated_dept = req.body;
-  const dep_id = req.body.Department_id;
+  const dep_id = req.body.DEPARTMENT_id;
   con.query(
-    `UPDATE department SET ? WHERE Department_id = ${dep_id}`,
+    `UPDATE DEPARTMENT SET ? WHERE DEPARTMENT_id = ${dep_id}`,
     updated_dept,
     (err, result) => {
       if (err) throw err;
