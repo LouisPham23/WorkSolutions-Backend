@@ -27,22 +27,39 @@ router.post("/", (req, res) => {
     if (err) {
       res.send(err).status(400);
     } else {
-      res.send(result).status(200);
+      res.send(req.body).status(200);
     }
   });
 });
 
 //Put: you need to send in all of the information for that row, where Patch: need to send the updated information only
 
-router.put("/", (req, res) => {
-  const updated_dept = req.body;
-  const dep_id = req.body.DEPARTMENT_id;
+router.put("/:id", (req, res) => {
+  const dept_id = req.params.id;
+  const { Name, Location, Acronym } = req.body;
   con.query(
-    `UPDATE DEPARTMENT SET ? WHERE DEPARTMENT_id = ${dep_id}`,
-    updated_dept,
+    "UPDATE DEPARTMENT SET Name = ?, Location = ?, Acronym = ? WHERE Department_Id = ?",
+    [Name, Location, Acronym, dept_id],
     (err, result) => {
-      if (err) throw err;
-      res.send(result);
+      if (err) {
+        res.send(err).status(400);
+      } else {
+        res.send(result).status(200);
+      }
+    }
+  );
+});
+
+router.delete("/:id", (req, res) => {
+  con.query(
+    "DELETE FROM DEPARTMENT WHERE Department_Id = ?",
+    req.params.id,
+    (err, result) => {
+      if (err) {
+        res.send(err).status(400);
+      } else {
+        res.send(result).status(200);
+      }
     }
   );
 });

@@ -2,22 +2,22 @@ const express = require("express");
 const app = express();
 const con = require("./connection");
 const cors = require("cors");
+const morgan = require("morgan");
 
 app.use(
   cors({
     // origin: "http://localhost:3000/",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
+
+app.use(morgan("common"));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send({ data: "this server is working" });
 });
-
-//This route is only for testing
-const person_route = require("./routes/person");
-app.use("/person", person_route);
 
 const ticket_route = require("./routes/ticket");
 app.use("/ticket", ticket_route);
