@@ -78,35 +78,66 @@ CREATE TABLE TICKET(
 );
 
 /* Create a view that sums all tickets grouped by status: LP
-
-CREATE VIEW(
-
-);
-
-trigger for insert and update EMPLOYEE TYPE: LP
+  trigger for insert and update EMPLOYEE TYPE: LP */
+CREATE VIEW ALL_TICKETS_TYPE_VIEW AS
+  SELECT COUNT(A.Status_Id), B.Status_name
+  FROM TICKET A JOIN STATUS B ON A.Status_Id = B.Status_Id
+  GROUP BY A.Status_Id ;
 
 DELIMITER //
-CREATE TRIGGER EMPLOYEE_TYPE_DISJOINT 
+CREATE TRIGGER EMPLOYEE_TYPE_DISJOINT_INSERT 
 	BEFORE INSERT ON EMPLOYEE
     FOR EACH ROW 
     BEGIN
 		IF 
-			NEW.Type = 'DEVELOPER' THEN
-			IF NEW.Level is not null THEN
+			NEW.Type = 'D' THEN
+			IF NEW.Levels is not null THEN
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Disjoint Enforced';
+				SET MESSAGE_TEXT = 'Developer can not have a level';
 			END IF;
 		ELSE IF
-			NEW.Type = 'SUPPORT' THEN
+			NEW.Type = 'S' THEN
 			IF NEW.Specialty is not null THEN
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = 'Disjoint Enforced';
+				SET MESSAGE_TEXT = 'Support employee can not have a specialty';
 			END IF;
         END IF;
         END IF;
 	END //;
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER EMPLOYEE_TYPE_DISJOINT_UPDATE 
+	BEFORE UPDATE ON EMPLOYEE
+    FOR EACH ROW 
+    BEGIN
+		IF 
+			NEW.Type = 'D' THEN
+			IF NEW.Levels is not null THEN
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Developer can not have a level';
+			END IF;
+		ELSE IF
+			NEW.Type = 'S' THEN
+			IF NEW.Specialty is not null THEN
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Support employee can not have a specialty';
+			END IF;
+        END IF;
+        END IF;
+	END //;
+DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE GetTeamsAndMembers()
+BEGIN
+    SELECT *
+    FROM 
+	    TEAM T JOIN EMPLOYEE E ON E.Team_Id = T.Team_Id;
+END //
+DELIMITER ;
+
+/*
 trigger for EMPLOYEES support level, materialized view: Dat
 
 Delimiter //
@@ -124,11 +155,4 @@ Create Trigger
 
 DELIMITER //
 
-DELIMITER // 
-CREATE PROCEDURE GetTeamsAndMembers()
-BEGIN
-    SELECT *
-    FROM 
-	    TEAM T JOIN EMPLOYEE E ON E.Team_Id = T.Team_Id;
-END //
-DELIMITER ;
+
