@@ -10,4 +10,25 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  con.query(
+    "SELECT * FROM TICKET WHERE Ticket_number = ?",
+    req.params.id,
+    (err, rows) => {
+      if (err) throw err;
+      res.send(rows);
+    }
+  );
+});
+
+router.post("/", (req, res) => {
+  con.query("INSERT INTO TICKET VALUES", req.body, (err, result) => {
+    if (err) {
+      res.send(err).status(400);
+    } else {
+      res.send(result).status(200);
+    }
+  });
+});
+
 module.exports = router;

@@ -45,6 +45,15 @@ CREATE TABLE EMPLOYEE(
   FOREIGN KEY (Department_Id) REFERENCES DEPARTMENT(Department_Id)
 );
 
+INSERT INTO EMPLOYEE VALUES ('RC129', 'Tom', 'Doe', 1, 'S', NULL , 'Network Support');
+INSERT INTO EMPLOYEE VALUES ('RT123', 'Cienna', 'Phelps', 1, 'S', NULL , 'Help Desk Support');
+INSERT INTO EMPLOYEE VALUES ('RV178', 'Keziah', 'Jones', 2, 'S', NULL , 'Network Support');
+INSERT INTO EMPLOYEE VALUES ('R45Il', 'Doris', 'Yoder', 2, 'S', NULL , 'Software Support');
+INSERT INTO EMPLOYEE VALUES ('RKI90', 'Faiz', 'Oconnor', 3, 'D', 'Android developer', NULL);
+INSERT INTO EMPLOYEE VALUES ('U182F', 'Jaydon', 'Marsh', 3, 'D', 'IOS developer', NULL);
+INSERT INTO EMPLOYEE VALUES ('JDC34', 'Kristina', 'Odling', 4, 'D', 'WEB developer', NULL);
+
+
 CREATE TABLE STATUS (
     Status_Id INT PRIMARY KEY NOT NULL,
     Status_name VARCHAR(15)
