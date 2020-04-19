@@ -31,6 +31,9 @@ app.use("/team", team_route);
 const employee_route = require("./routes/employee");
 app.use("/employee", employee_route);
 
+const team_employee_route = require("./routes/team_employee");
+app.use("/team_employee", team_employee_route);
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port: ${process.env.PORT}`);
 });

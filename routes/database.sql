@@ -95,6 +95,11 @@ CREATE TABLE TICKET(
       FOREIGN KEY (Status_Id) REFERENCES STATUS(Status_Id)
 );
 
+INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('I', 1, 1, 'Fix bug on production Sales Watcher App', 'RC129', NULL, NOW(), null, 'Please fix on upload file error on production of sales watcher app. It keeps erroring');
+
+INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('I', 2, 2, 'Create a report for this year total expenses', 'RV178', NULL, NOW(), null, 'Please create a report this year expenses due, make sure to check all details');
+
+INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('R', 3, 3, 'Add a new feature to current paycheck app', 'U182F', NULL, CURRENT_TIMESTAMP(), null, 'Need a short cut to fill out all of the days on timesheet for salary workers');
 /* Create a view that sums all tickets grouped by status: LP
   trigger for insert and update EMPLOYEE TYPE: LP */
 CREATE VIEW ALL_TICKETS_TYPE_VIEW AS
