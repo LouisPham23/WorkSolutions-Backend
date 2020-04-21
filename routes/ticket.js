@@ -22,7 +22,8 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  con.query("INSERT INTO TICKET VALUES", req.body, (err, result) => {
+  console.log(req.body);
+  con.query("INSERT INTO TICKET SET ?", [req.body], (err, result) => {
     if (err) {
       res.send(err).status(400);
     } else {
