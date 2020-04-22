@@ -168,7 +168,7 @@ CREATE TRIGGER INSERT_TICKET_STATUS_OPEN
 	BEFORE INSERT ON TICKET
     FOR EACH ROW 
     BEGIN
-		SET New.Status_Id = 2;
+		SET New.Status_Id = 2, New.Assigned_Date = NOW();
 	END //;
 DELIMITER ;
 
