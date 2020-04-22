@@ -4,10 +4,16 @@ const router = express.Router();
 const con = require("../connection");
 
 router.get("/", (req, res) => {
-  con.query("SELECT * FROM DEPARTMENT", (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
+  con.query(
+    "SELECT * FROM DEPARTMENT ORDER BY Ticket_number DESC",
+    (err, rows) => {
+      if (err) throw err;
+      else {
+        res.send(rows);
+        console.log(rows);
+      }
+    }
+  );
 });
 
 router.get("/:id", (req, res) => {

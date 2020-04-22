@@ -163,6 +163,15 @@ CREATE PROCEDURE GetTeamsAndMembers()
   END //
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER INSERT_TICKET_STATUS_OPEN 
+	BEFORE INSERT ON TICKET
+    FOR EACH ROW 
+    BEGIN
+		SET New.Status_Id = 2;
+	END //;
+DELIMITER ;
+
 /*
 trigger for EMPLOYEES support level, materialized view: Dat
 
