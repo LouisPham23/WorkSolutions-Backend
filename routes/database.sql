@@ -72,7 +72,6 @@ CREATE TABLE TEAM_EMPLOYEE(
 
 INSERT INTO TEAM_EMPLOYEE VALUES (5, 'R45Il');
 INSERT INTO TEAM_EMPLOYEE VALUES (4, 'RC129');
-INSERT INTO TEAM_EMPLOYEE VALUES (1, 'U182F');
 INSERT INTO TEAM_EMPLOYEE VALUES (2,'RKI90');
 INSERT INTO TEAM_EMPLOYEE VALUES (6, 'RT123');
 INSERT INTO TEAM_EMPLOYEE VALUES (5, 'RV178');
@@ -99,7 +98,8 @@ INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigne
 
 INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('I', 2, 2, 'Create a report for this year total expenses', 'RV178', NULL, NOW(), null, 'Please create a report this year expenses due, make sure to check all details');
 
-INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('R', 3, 3, 'Add a new feature to current paycheck app', 'U182F', NULL, CURRENT_TIMESTAMP(), null, 'Need a short cut to fill out all of the days on timesheet for salary workers');
+INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('R', 3, 3, 'Add a new feature to current paycheck app', 'RT123', NULL, CURRENT_TIMESTAMP(), null, 'Need a short cut to fill out all of the days on timesheet for salary workers');
+
 
 /* Create a view that sums all tickets grouped by status: LP
   trigger for insert and update EMPLOYEE TYPE: LP */
@@ -162,6 +162,25 @@ CREATE PROCEDURE GetTeamsAndMembers()
       JOIN TEAM T ON TE.Team_Id = T.Team_Id
       GROUP BY TE.Team_Id;
   END //
+DELIMITER ;
+
+DELIMITER //
+	CREATE PROCEDURE GetTeamsAndNOTMembers(IN team_id INT)
+	  BEGIN
+		select * from (
+			(select Team_name, TE.Team_Id, E.First_name, E.Last_name, E.Employee_Id from TEAM AS T
+				JOIN TEAM_EMPLOYEE AS TE ON T.Team_Id = TE.Team_Id
+				  RIGHT OUTER JOIN EMPLOYEE E ON E.Employee_Id = TE.Employee_Id
+				  where T.Team_Id != team_id)
+			UNION
+            (
+			select Team_name, TE.Team_Id, E.First_name, E.Last_name, E.Employee_Id from TEAM AS T
+				JOIN TEAM_EMPLOYEE AS TE ON T.Team_Id = TE.Team_Id
+				  RIGHT OUTER JOIN EMPLOYEE E ON E.Employee_Id = TE.Employee_Id
+				  where T.Team_Id is null)
+                  
+		) COMBINED_TABLE group by Employee_Id; 
+	  END //
 DELIMITER ;
 
 DELIMITER //

@@ -13,4 +13,14 @@ router.get("/", (req, res) => {
   });
 });
 
+router.post("/", (req, res) => {
+  con.query("INSERT INTO TEAM_EMPLOYEE SET ?", [req.body], (err, result) => {
+    if (err) {
+      res.send(err).status(400);
+    } else {
+      res.send(result).status(200);
+    }
+  });
+});
+
 module.exports = router;

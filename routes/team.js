@@ -25,6 +25,13 @@ router.get("/:id", (req, res) => {
   );
 });
 
+router.get("/:id/not", (req, res) => {
+  con.query(`call GetTeamsAndNOTMembers(?);`, req.params.id, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+});
+
 router.post("/", (req, res) => {
   con.query("INSERT INTO TEAM SET ?", req.body, (err, result) => {
     if (err) {
