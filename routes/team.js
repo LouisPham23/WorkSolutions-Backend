@@ -4,7 +4,7 @@ const router = express.Router();
 const con = require("../connection");
 
 router.get("/", (req, res) => {
-  con.query("SELECT * FROM TEAM", (err, rows) => {
+  con.query("CALL GetTeamsAndMembers;", (err, rows) => {
     if (err) throw err;
     res.send(rows);
   });

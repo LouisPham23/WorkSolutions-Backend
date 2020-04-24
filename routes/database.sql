@@ -155,11 +155,12 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE GetTeamsAndMembers()
   BEGIN
-    SELECT *
+    SELECT COUNT(TE.Team_Id) AS Members, Team_name, TE.Team_Id
     FROM 
 	    TEAM_EMPLOYEE TE 
       JOIN EMPLOYEE E ON E.Employee_Id = TE.Employee_Id
-      JOIN TEAM T ON TE.Team_Id = T.Team_Id ;
+      JOIN TEAM T ON TE.Team_Id = T.Team_Id
+      GROUP BY TE.Team_Id;
   END //
 DELIMITER ;
 
