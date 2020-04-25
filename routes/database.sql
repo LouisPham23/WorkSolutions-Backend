@@ -165,25 +165,6 @@ CREATE PROCEDURE GetTeamsAndMembers()
 DELIMITER ;
 
 DELIMITER //
-	CREATE PROCEDURE GetTeamsAndNOTMembers(IN team_id INT)
-	  BEGIN
-		select * from (
-			(select Team_name, TE.Team_Id, E.First_name, E.Last_name, E.Employee_Id from TEAM AS T
-				JOIN TEAM_EMPLOYEE AS TE ON T.Team_Id = TE.Team_Id
-				  RIGHT OUTER JOIN EMPLOYEE E ON E.Employee_Id = TE.Employee_Id
-				  where T.Team_Id != team_id)
-			UNION
-            (
-			select Team_name, TE.Team_Id, E.First_name, E.Last_name, E.Employee_Id from TEAM AS T
-				JOIN TEAM_EMPLOYEE AS TE ON T.Team_Id = TE.Team_Id
-				  RIGHT OUTER JOIN EMPLOYEE E ON E.Employee_Id = TE.Employee_Id
-				  where T.Team_Id is null)
-                  
-		) COMBINED_TABLE group by Employee_Id; 
-	  END //
-DELIMITER ;
-
-DELIMITER //
 CREATE TRIGGER INSERT_TICKET_STATUS_OPEN 
 	BEFORE INSERT ON TICKET
     FOR EACH ROW 
@@ -195,6 +176,18 @@ CREATE TRIGGER INSERT_TICKET_STATUS_OPEN
 	END //;
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER INSERT_TEAM_EMPLOYEE_EXIST 
+	BEFORE INSERT ON TEAM_EMPLOYEE
+    FOR EACH ROW 
+    BEGIN
+		IF 
+			EXISTS(SELECT * FROM TEAM_EMPLOYEE WHERE Employee_Id = NEW.Employee_Id AND Team_Id = New.Team_Id) THEN
+				SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Error, the employee is already in team.';
+        END IF;
+	END //;
+DELIMITER ;
 /*
 trigger for EMPLOYEES support level, materialized view: Dat
 
