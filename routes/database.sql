@@ -197,12 +197,49 @@ DELIMITER ;
 
 /*
 trigger for EMPLOYEES support level, materialized view: Dat
+*/
+/* Definition for support levels */
+CREATE TABLE SUPPORT_LEVELS{
+  SLevel integer,
+  SName VARCHAR(20),
+  CONSTRAINT PRIMARY KEY(SLevel,SName)
+};
 
-Delimiter //
-Create Trigger
 
-//
+INSERT INTO SUPPORT_LEVELS (SLevel,SName) VALUES (1, "Service Desk");
+INSERT INTO SUPPORT_LEVELS (SLevel,SName) VALUES (2, "Infrastructure");
+INSERT INTO SUPPORT_LEVELS (SLevel,SName) VALUES (3, "Infrastructure");
+/* IF support, level cannot be null and Specialty must be null */
+DELIMITER //
+CREATE TRIGGER EMPLOYEE_SUPPORT_LEVEL
+	BEFORE INSERT ON EMPLOYEE
+    FOR EACH ROW 
+    BEGIN
+		IF EMPLOYEE.Type == 'SUPPORT' 
+      THEN IF EMPLOYEE.level is null EMPLOYEE.Specialty is NOT NULL
+			  THEN  SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Support employee needs to have Level and Specialty must be null.';
+		END IF;
+		SET New.Assigned_Date = NOW();
+	END //;
+DELIMITER ;
 
+/* On Insert, add to materialized view. */
+DELIMITER //
+CREATE TRIGGER EMPLOYEE_SUPPORT_LEVEL
+	AFTER INSERT ON EMPLOYEE
+    FOR EACH ROW 
+    BEGIN
+		IF EMPLOYEE.Type == 'SUPPORT' 
+      THEN IF EMPLOYEE.level is null EMPLOYEE.Specialty is NOT NULL
+			  THEN  SIGNAL SQLSTATE '45000'
+				SET MESSAGE_TEXT = 'Support employee needs to have Level and Specialty must be null.';\
+		END IF;
+		SET New.Assigned_Date = NOW();
+	END //;
+DELIMITER ;
+
+/*
 trigger for employees and teams they are apart of, materialized view for web developer, IT, etc: Jared
 
 Delimeter //
