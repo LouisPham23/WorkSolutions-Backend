@@ -94,6 +94,17 @@ CREATE TABLE TICKET(
       FOREIGN KEY (Status_Id) REFERENCES STATUS(Status_Id)
 );
 
+/*Materialized View for teams and their employees*/
+CREATE TABLE TEAM_VIEW(
+  Employee_Id VARCHAR(10),
+  First_name VARCHAR(100),
+  Last_name VARCHAR(100),
+  Specialty VARCHAR(100),
+  Levels VARCHAR(100),
+  Team_name VARCHAR(100),
+  FOREIGN KEY (Employee_Id) REFERENCES EMPLOYEE(Employee_Id) ON DELETE CASCADE
+);
+
 INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('I', 1, 1, 'Fix bug on production Sales Watcher App', 'RC129', NULL, NOW(), null, 'Please fix on upload file error on production of sales watcher app. It keeps erroring');
 
 INSERT INTO TICKET (Ticket_type, Priority, Status_Id, Title, Created_By, Assigned_To, Assigned_Date, Deadline_Date, Description) VALUES ('I', 2, 2, 'Create a report for this year total expenses', 'RV178', NULL, NOW(), null, 'Please create a report this year expenses due, make sure to check all details');
@@ -195,15 +206,29 @@ Delimiter //
 Create Trigger
 
 //
+*/
 
-trigger for employees and teams they are apart of, materialized view for web developer, IT, etc: Jared
+/*trigger for employees and teams they are apart of, materialized view for web developer, IT, etc: Jared*/
 
-Delimeter //
-Create Trigger
-
-//
-
-
+/*After employee record is inserted, log appropriate info to materialized view*/
 DELIMITER //
+CREATE TRIGGER TEAM_VIEW_INSERT AFTER INSERT ON dbo.TEAM_EMPLOYEE
+  FOR EACH ROW
+  BEGIN
+    DECLARE newEmployee_Id varchar(10);
+    DECLARE newFirst varchar(100);
+    DECLARE newLast varchar(100);
+    DECLARE newSpecialty VARCHAR(100);
+    DECLARE newLevels VARCHAR(100);
+    DECLARE newTeam_name VARCHAR(100);
 
+    SELECT E.Employee_Id, E.First_name, E.Last_name, E.Specialty, E.Levels, T.Team_name INTO newEmployee_Id, newFirst, newLast, newSpecialty, newLevels, newTeam_name
+      FROM EMPLOYEE AS E JOIN TEAM_EMPLOYEE AS TE 
+        ON E.Employee_Id = TE.Employee_Id JOIN TEAM AS T
+        ON TE.Team_Id = T.Team_Id
+	  WHERE E.Employee_Id = NEW.Employee_Id
+		AND TE.Team_Id = NEW.Team_Id;
 
+      INSERT INTO TEAM_VIEW VALUES(newEmployee_Id, newFirst, newLast, newSpecialty, newLevels, newTeam_name);
+END //
+DELIMITER //
