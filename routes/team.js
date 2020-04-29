@@ -35,8 +35,18 @@ router.post("/", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
-  let team_id = req.params.id;
-  res.send(team_id);
+router.delete("/", (req, res) => {
+  con.query(
+    "DELETE FROM DEPARTMENT WHERE Department_Id = ?",
+    req.params.id,
+    (err, result) => {
+      if (err) {
+        res.send(err).status(400);
+      } else {
+        res.send(result).status(200);
+      }
+    }
+  );
 });
+
 module.exports = router;
