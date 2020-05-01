@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  con.query("INSERT INTO EMPLOYEE VALUES", req.body, (err, result) => {
+  con.query("INSERT INTO EMPLOYEE SET ?", req.body, (err, result) => {
     if (err) {
       res.send(err).status(400);
     } else {

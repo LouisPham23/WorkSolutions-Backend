@@ -3,6 +3,7 @@ const app = express();
 const con = require("./connection");
 const cors = require("cors");
 const morgan = require("morgan");
+const helmet = require("helmet");
 
 app.use(
   cors({
@@ -11,6 +12,7 @@ app.use(
   })
 );
 
+app.use(helmet());
 app.use(morgan("common"));
 
 app.use(express.json());

@@ -33,4 +33,41 @@ router.post("/", (req, res) => {
   });
 });
 
+//Put: you need to send in all of the information for that row, where Patch: need to send the updated information only
+
+router.put("/:id", (req, res) => {
+  const ticket_id = req.params.id;
+
+  const {
+    Ticket_type,
+    Priority,
+    Status_Id,
+    Title,
+    Assigned_To,
+    Deadline_Date,
+    Description,
+  } = req.body;
+
+  let d = con.query(
+    "UPDATE TICKET SET Ticket_type = ?, Priority = ?, Status_Id = ?, Title = ?, Assigned_To = ?, Deadline_Date = ?, Description = ? WHERE Ticket_number = ?",
+    [
+      Ticket_type,
+      Priority,
+      Status_Id,
+      Title,
+      Assigned_To,
+      Deadline_Date,
+      Description,
+      ticket_id,
+    ],
+    (err, result) => {
+      if (err) {
+        res.send(err).status(400);
+      } else {
+        res.send(result).status(200);
+      }
+    }
+  );
+});
+
 module.exports = router;
