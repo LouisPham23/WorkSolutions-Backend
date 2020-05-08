@@ -33,6 +33,19 @@ router.post("/", (req, res) => {
   });
 });
 
+router.delete("/:id", (req, res) => {
+  con.query(
+    "DELETE FROM TICKET WHERE Ticket_number = ?",
+    req.params.id,
+    (err, result) => {
+      if (err) {
+        res.send(err).status(400);
+      } else {
+        res.send(result).status(200);
+      }
+    }
+  );
+});
 //Put: you need to send in all of the information for that row, where Patch: need to send the updated information only
 
 router.put("/:id", (req, res) => {
